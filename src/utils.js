@@ -97,7 +97,7 @@ document.getElementById('btn-generate').addEventListener('click', function (even
 
           if (qrImage) {
             const qrSource = qrImage.src;
-            downloadBtn.href = qrSource;
+            this.href = qrSource;
           }
         }, 500);
 
