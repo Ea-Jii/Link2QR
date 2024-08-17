@@ -99,22 +99,6 @@ document.getElementById('btn-generate').addEventListener('click', function (even
             const qrSource = qrImage.src;
             downloadBtn.href = qrSource;
           }
-
-          shareBtn.addEventListener("click", async () => {
-            try {
-              await navigator.share(qrImage);
-            } catch (error) {
-              alert("Failed", error)
-            }
-          });
-
-          copyBtn.addEventListener("click", async () => {
-            try {
-              await navigator.clipboard.writeText(qrImage);
-            } catch (error) {
-              alert("Failed", error)
-            }
-          });
         }, 500);
 
         // Show the wrapper & success message
@@ -130,4 +114,3 @@ document.getElementById('btn-generate').addEventListener('click', function (even
       showAlert();
     }
 });
-
