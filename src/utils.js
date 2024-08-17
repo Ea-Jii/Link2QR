@@ -89,17 +89,17 @@ document.getElementById('btn-generate').addEventListener('click', function (even
           height: 256,
         });
 
-        // Show action buttons
-        groupBtn.classList.remove('hidden'); 
+        // // Show action buttons
+        // groupBtn.classList.remove('hidden'); 
 
-        setTimeout( () => {
-          const qrImage = document.querySelector("#qrcode img");
+        // setTimeout( () => {
+        //   const qrImage = document.querySelector("#qrcode img");
 
-          if (qrImage) {
-            const qrSource = qrImage.src;
-            this.href = qrSource;
-          }
-        }, 500);
+        //   if (qrImage) {
+        //     const qrSource = qrImage.src;
+        //     this.href = qrSource;
+        //   }
+        // }, 500);
 
         // Show the wrapper & success message
         wrapperElement.classList.add('grid');
