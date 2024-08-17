@@ -90,3 +90,7 @@ document.getElementById('btn-generate').addEventListener('click', function (even
     }
 });
 
+// Prevent user from copying text
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
