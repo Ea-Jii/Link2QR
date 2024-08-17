@@ -17,10 +17,19 @@ inputField.addEventListener('input', function () {
     }
 });
 
-// Alert message & hide form
+// Custom alert messages
+let message = "";
+
+function messageShit(message) {
+  const alertTitle = document.getElementById("alert-title");
+
+  alertTitle.textContent = message;
+}
+
+// Toggle alert
 function showAlert() {
-  const alertMessage = document.getElementById("alertmessage");
-  alertMessage.classList.remove("hidden");
+  const alertDialog = document.getElementById("alert-dialog");
+  alertDialog.classList.remove("hidden");
 
   // Clear input & disable button
   document.getElementById('qrlink').value = '';
@@ -34,8 +43,7 @@ function showAlert() {
 
 // Close alert message & enable input
 document.getElementById('btn-dismiss').addEventListener('click', function () {
-  document.getElementById('alertmessage').classList.add('hidden');
-  qrForm.classList.remove("hidden");
+  document.getElementById('alert-dialog').classList.add('hidden');
 
   // Enable input field
   inputField.disabled = false;
@@ -60,11 +68,17 @@ document.getElementById('btn-generate').addEventListener('click', function (even
     const qrLink = document.getElementById('qrlink').value.trim();
     const wrapperElement = document.getElementById('wrapper');
     const messageElement = document.getElementById('message');
+    const downloadBtn= document.getElementById("btn-download");
+    const shareBtn = document.getElementById("btn-share");
+    const copyBtn = document.getElementById("btn-copy");
+    const groupBtn = document.getElementById("btn-group");
     
     // Clear any previous QR code and message
     document.getElementById('qrcode').innerHTML = '';
-    // Hide the message initially
+
+    // Hide the message and action buttons initially
     messageElement.classList.add('hidden'); 
+    groupBtn.classList.add('hidden'); 
   
     if (qrLink && isValidUrl(qrLink)) {
       try {
@@ -74,7 +88,35 @@ document.getElementById('btn-generate').addEventListener('click', function (even
           width: 256,
           height: 256,
         });
-        
+
+        // Show action buttons
+        groupBtn.classList.remove('hidden'); 
+
+        setTimeout( () => {
+          const qrImage = document.querySelector("#qrcode img");
+
+          if (qrImage) {
+            const qrSource = qrImage.src;
+            downloadBtn.href = qrSource;
+          }
+
+          shareBtn.addEventListener("click", async () => {
+            try {
+              await navigator.share(qrImage);
+            } catch (error) {
+              alert("Failed", error)
+            }
+          });
+
+          copyBtn.addEventListener("click", async () => {
+            try {
+              await navigator.clipboard.writeText(qrImage);
+            } catch (error) {
+              alert("Failed", error)
+            }
+          });
+        }, 500);
+
         // Show the wrapper & success message
         wrapperElement.classList.add('grid');
         wrapperElement.classList.remove('hidden');
