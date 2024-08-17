@@ -17,15 +17,6 @@ inputField.addEventListener('input', function () {
     }
 });
 
-// Custom alert messages
-let message = "";
-
-function messageShit(message) {
-  const alertTitle = document.getElementById("alert-title");
-
-  alertTitle.textContent = message;
-}
-
 // Toggle alert
 function showAlert() {
   const alertDialog = document.getElementById("alert-dialog");
@@ -70,15 +61,11 @@ document.getElementById('btn-generate').addEventListener('click', function (even
     const messageElement = document.getElementById('message');
     const downloadBtn= document.getElementById("btn-download");
     const shareBtn = document.getElementById("btn-share");
-    const copyBtn = document.getElementById("btn-copy");
-    const groupBtn = document.getElementById("btn-group");
     
     // Clear any previous QR code and message
     document.getElementById('qrcode').innerHTML = '';
-
-    // Hide the message and action buttons initially
+    // Hide the message initially
     messageElement.classList.add('hidden'); 
-    groupBtn.classList.add('hidden'); 
   
     if (qrLink && isValidUrl(qrLink)) {
       try {
@@ -88,18 +75,6 @@ document.getElementById('btn-generate').addEventListener('click', function (even
           width: 256,
           height: 256,
         });
-
-        // // Show action buttons
-        // groupBtn.classList.remove('hidden'); 
-
-        // setTimeout( () => {
-        //   const qrImage = document.querySelector("#qrcode img");
-
-        //   if (qrImage) {
-        //     const qrSource = qrImage.src;
-        //     this.href = qrSource;
-        //   }
-        // }, 500);
 
         // Show the wrapper & success message
         wrapperElement.classList.add('grid');
@@ -114,3 +89,4 @@ document.getElementById('btn-generate').addEventListener('click', function (even
       showAlert();
     }
 });
+
