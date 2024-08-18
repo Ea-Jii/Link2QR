@@ -89,3 +89,30 @@ document.getElementById('btn-generate').addEventListener('click', function (even
       showAlert();
     }
 });
+
+document.getElementById("btn-download").addEventListener('click', async function (event) {
+  event.preventDefault();
+  const qrContainer = document.querySelector("#qrcode");
+  const qrImg = qrContainer.querySelector("img");
+
+  try {
+
+    if (!qrImg) {
+      throw new Error ("QR Code not found");
+    }
+
+    const response = await fetch(qrImg.src);
+    const blob = await response.blob();
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'qrcode.png'; // Set the default file name
+    link.click();
+
+    // Clean up by revoking the object URL
+    URL.revokeObjectURL(link.href);
+
+  } catch (error) {
+    console.error("Error downloading the QR code image:", error);
+  }
+});
