@@ -90,40 +90,29 @@ document.getElementById('btn-generate').addEventListener('click', function (even
     }
 });
 
-document.getElementById("btn-download").addEventListener('click', async function (event) {
-  event.preventDefault(); // Prevent the default form submission behavior
-  
-  const qrContainer = document.querySelector("#qrcode");
-  const qrImg = qrContainer.querySelector("img"); // Select the img inside the qrContainer
+// document.getElementById("btn-download").addEventListener('click', async function (event) {
+//   event.preventDefault();
+//   const qrContainer = document.querySelector("#qrcode");
+//   const qrImg = qrContainer.querySelector("img");
 
-  if (!qrImg) {
-    console.error("QR code image not found.");
-    return;
-  }
+//   try {
 
-  console.log("QR Image src:", qrImg.src); // Log the src for debugging
+//     if (!qrImg) {
+//       throw new Error ("QR Code not found");
+//     }
 
-  try {
-    // Fetch the image as a blob
-    const response = await fetch(qrImg.src);
+//     const response = await fetch(qrImg.src);
+//     const blob = await response.blob();
 
-    // Check if the response is an image
-    if (!response.ok || !response.headers.get('Content-Type').startsWith('image/')) {
-      throw new Error("The fetched content is not an image. It might be an HTML page.");
-    }
+//     const link = document.createElement('a');
+//     link.href = URL.createObjectURL(blob);
+//     link.download = 'qrcode.png'; // Set the default file name
+//     link.click();
 
-    const blob = await response.blob();
+//     // Clean up by revoking the object URL
+//     URL.revokeObjectURL(link.href);
 
-    // Create a link element and trigger a download
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'qrcode.png'; // Set the default file name
-    link.click();
-
-    // Clean up by revoking the object URL
-    URL.revokeObjectURL(link.href);
-
-  } catch (error) {
-    console.error("Error downloading the QR code image:", error);
-  }
-});
+//   } catch (error) {
+//     console.error("Error downloading the QR code image:", error);
+//   }
+// });
