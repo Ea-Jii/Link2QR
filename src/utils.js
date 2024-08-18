@@ -91,19 +91,30 @@ document.getElementById('btn-generate').addEventListener('click', function (even
 });
 
 document.getElementById("btn-download").addEventListener('click', async function (event) {
-  event.preventDefault();
+  event.preventDefault(); // Prevent the default form submission behavior
+  
   const qrContainer = document.querySelector("#qrcode");
-  const qrImg = qrContainer.querySelector("img");
+  const qrImg = qrContainer.querySelector("img"); // Select the img inside the qrContainer
+
+  if (!qrImg) {
+    console.error("QR code image not found.");
+    return;
+  }
+
+  console.log("QR Image src:", qrImg.src); // Log the src for debugging
 
   try {
+    // Fetch the image as a blob
+    const response = await fetch(qrImg.src);
 
-    if (!qrImg) {
-      throw new Error ("QR Code not found");
+    // Check if the response is an image
+    if (!response.ok || !response.headers.get('Content-Type').startsWith('image/')) {
+      throw new Error("The fetched content is not an image. It might be an HTML page.");
     }
 
-    const response = await fetch(qrImg.src);
     const blob = await response.blob();
 
+    // Create a link element and trigger a download
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = 'qrcode.png'; // Set the default file name
