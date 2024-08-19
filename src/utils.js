@@ -95,11 +95,7 @@ document.getElementById('btn-generate').addEventListener('click', function (even
 
 // Convert QR Code into image
 function convertQRToImage() {
-<<<<<<< HEAD
   const qrCodeCanvas = document.querySelector('#qrcode canvas');
-=======
-  const qrCanvas = document.querySelector('#qrcode canvas');
->>>>>>> 7862aea4db5ff4707147d4be7537e3d6b4ff5535
 
   if (qrCodeCanvas) {
     const dataUrl = qrCodeCanvas.toDataURL('image/png');
