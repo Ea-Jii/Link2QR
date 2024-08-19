@@ -114,7 +114,9 @@ function convertQRToImage() {
 
 }
 
-function downloadQRCode () {
+// Download QR Code
+document.getElementById("btn-download").addEventListener('click', function (event) {
+  event.preventDefault();
   const dataUrl = convertQRToImage();
 
   if (dataUrl){
@@ -123,9 +125,33 @@ function downloadQRCode () {
     link.download = "qrcode.png"
     link.click();
   }
-}
+});
 
-document.getElementById("btn-download").addEventListener('click', function (event) {
+// Share QR Code
+document.getElementById("btn-share").addEventListener("click", async (event) => {
   event.preventDefault();
-  downloadQRCode();
+  const dataUrl = convertQRToImage();
+  const fileToShare = dataUrl;
+
+  // feature detecting navigator.canShare() also implies
+  // the same for the navigator.share()
+  if (!navigator.canShare) {
+    alert("Your browser doesn't support the Web Share API.");
+    return;
+  }
+
+  if (navigator.canShare({ fileToShare })) {
+    try {
+      await navigator.share({
+        fileToShare,
+        title: "Generated QR Code",
+        text: "I'm happy to share this Qr Code",
+      });
+      console.log("Shared");
+    } catch (error) {
+      console.log("Failed to share", error)
+    }
+  } else {
+    alert("Your system doesn't support sharing these files.");
+  }
 });
