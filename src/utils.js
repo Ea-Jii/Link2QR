@@ -74,6 +74,9 @@ document.getElementById('btn-generate').addEventListener('click', function (even
           text: qrLink,
           width: 256,
           height: 256,
+          colorDark : "#000000",
+          colorLight : "#ffffff",
+          correctLevel : QRCode.CorrectLevel.H
         });
 
         // Show the wrapper & success message
@@ -90,29 +93,39 @@ document.getElementById('btn-generate').addEventListener('click', function (even
     }
 });
 
-// document.getElementById("btn-download").addEventListener('click', async function (event) {
-//   event.preventDefault();
-//   const qrContainer = document.querySelector("#qrcode");
-//   const qrImg = qrContainer.querySelector("img");
+// Convert QR Code into image
+function convertQRToImage() {
+  const qrCanvas = document.querySelector('#qrcode canvas');
 
-//   try {
+  if (qrCodeCanvas) {
+    const dataUrl = qrCodeCanvas.toDataURL('image/png');
+    const qrImg = document.createElement('img');
+    qrImg.src = dataUrl;
+    qrImg.alt = 'QR Code'
+  
+    const qrContainer = document.getElementById("qrcode");
+    qrContainer.innerHTML = '';
+    qrContainer.appendChild(qrImg);
 
-//     if (!qrImg) {
-//       throw new Error ("QR Code not found");
-//     }
+    return dataUrl;
+  } else {
+    return null;
+  }
 
-//     const response = await fetch(qrImg.src);
-//     const blob = await response.blob();
+}
 
-//     const link = document.createElement('a');
-//     link.href = URL.createObjectURL(blob);
-//     link.download = 'qrcode.png'; // Set the default file name
-//     link.click();
+function downloadQRCode () {
+  const dataUrl = convertQRToImage();
 
-//     // Clean up by revoking the object URL
-//     URL.revokeObjectURL(link.href);
+  if (dataUrl){
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = "qrcode.png"
+    link.click();
+  }
+}
 
-//   } catch (error) {
-//     console.error("Error downloading the QR code image:", error);
-//   }
-// });
+document.getElementById("btn-download").addEventListener('click', function (event) {
+  event.preventDefault();
+  downloadQRCode();
+});
